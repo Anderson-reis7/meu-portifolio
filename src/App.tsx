@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Moon, Sun, Github, Linkedin, Instagram, Mail, ExternalLink, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import './App.css'
+import { profile } from '@/assets/profile.png'
 
 interface Project {
   id: number
@@ -178,7 +179,7 @@ function App() {
             className="space-y-6"
           >
             <motion.img
-              src="dist/profile.png"
+              src= {profile}
               alt="Anderson Reis"
               className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-primary shadow-lg"
               initial={{ scale: 0, opacity: 0 }}

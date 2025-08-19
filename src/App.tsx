@@ -18,7 +18,7 @@ const projects: Project[] = [
     id: 1,
     title: "Elevador Interativo",
     description: "Simulação interativa de um elevador com interface moderna e animações suaves.",
-    image: "/elevado-interativo.png",
+    image: "src/assets/elevado-interativo.png",
     github: "https://github.com/Anderson-reis7/projet-elevador",
     technologies: ["JavaScript", "HTML", "CSS"]
   },
@@ -26,7 +26,7 @@ const projects: Project[] = [
     id: 2,
     title: "Conversor de Moedas",
     description: "Aplicação para conversão de moedas em tempo real com interface intuitiva.",
-    image: "/conversor-dinheiro.png",
+    image: "src/assets/conversor-dinheiro.png",
     github: "https://github.com/Anderson-reis7/conversor-de-dinheiro",
     technologies: ["JavaScript", "API", "CSS"]
   },
@@ -34,7 +34,7 @@ const projects: Project[] = [
     id: 3,
     title: "Cifra de César",
     description: "Ferramenta de criptografia usando a técnica clássica da Cifra de César.",
-    image: "/cifra-cesa.png",
+    image: "src/assets/cifra-cesa.png",
     github: "https://github.com/Anderson-reis7/cifra-de-cesar",
     technologies: ["JavaScript", "Criptografia", "HTML"]
   },
@@ -42,7 +42,7 @@ const projects: Project[] = [
     id: 4,
     title: "Jokenpô",
     description: "Jogo clássico de pedra, papel e tesoura com design moderno e interativo.",
-    image: "/jokepo.png",
+    image: "src/assets/jokepo.png",
     github: "https://github.com/Anderson-reis7/jokenpo",
     technologies: ["JavaScript", "Game Logic", "CSS"]
   }
@@ -178,7 +178,7 @@ function App() {
             className="space-y-6"
           >
             <motion.img
-              src="/profile-hd.png"
+              src="src/assets/profile.png"
               alt="Anderson Reis"
               className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-primary shadow-lg"
               initial={{ scale: 0, opacity: 0 }}

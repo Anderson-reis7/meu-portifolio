@@ -3,7 +3,11 @@ import { motion } from 'framer-motion'
 import { Moon, Sun, Github, Linkedin, Instagram, Mail, ExternalLink, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import './App.css'
-import { profile } from '@/assets/profile.png'
+import profile from "@/assets/profile.png";
+import elevador from "@/assets/elevado-interativo.png";
+import conversor from "@/assets/conversor-dinheiro.png";
+import cifra from "@/assets/cifra-cesa.png";
+import jokenpo from "@/assets/jokepo.png";
 
 interface Project {
   id: number
@@ -19,7 +23,7 @@ const projects: Project[] = [
     id: 1,
     title: "Elevador Interativo",
     description: "Simulação interativa de um elevador com interface moderna e animações suaves.",
-    image: "dist/elevado-interativo.png",
+    image: elevador,
     github: "https://github.com/Anderson-reis7/projet-elevador",
     technologies: ["JavaScript", "HTML", "CSS"]
   },
@@ -27,7 +31,7 @@ const projects: Project[] = [
     id: 2,
     title: "Conversor de Moedas",
     description: "Aplicação para conversão de moedas em tempo real com interface intuitiva.",
-    image: "dist/conversor-dinheiro.png",
+    image: conversor,
     github: "https://github.com/Anderson-reis7/conversor-de-dinheiro",
     technologies: ["JavaScript", "API", "CSS"]
   },
@@ -35,7 +39,7 @@ const projects: Project[] = [
     id: 3,
     title: "Cifra de César",
     description: "Ferramenta de criptografia usando a técnica clássica da Cifra de César.",
-    image: "dist/cifra-cesa.png",
+    image: cifra,
     github: "https://github.com/Anderson-reis7/cifra-de-cesar",
     technologies: ["JavaScript", "Criptografia", "HTML"]
   },
@@ -43,7 +47,7 @@ const projects: Project[] = [
     id: 4,
     title: "Jokenpô",
     description: "Jogo clássico de pedra, papel e tesoura com design moderno e interativo.",
-    image: "dist/jokepo.png",
+    image: jokenpo,
     github: "https://github.com/Anderson-reis7/jokenpo",
     technologies: ["JavaScript", "Game Logic", "CSS"]
   }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Moon, Sun, Github, Linkedin, Instagram, Mail, ExternalLink, Menu, X } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+// import { Button } from '@/components/ui/button'
 import './App.css'
 
 interface Project {

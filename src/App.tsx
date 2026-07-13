@@ -1,13 +1,29 @@
-import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { Moon, Sun, Github, Linkedin, Instagram, Mail, ExternalLink, Menu, X } from 'lucide-react'
+import { type ChangeEvent, type CSSProperties, type FormEvent, useEffect, useRef, useState } from 'react'
+import {
+  Check,
+  Code2,
+  Copy,
+  Database,
+  ExternalLink,
+  Github,
+  Instagram,
+  Layers3,
+  Linkedin,
+  Mail,
+  Menu,
+  Moon,
+  Server,
+  Smartphone,
+  Sun,
+  X,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import './App.css'
-import profile from "@/assets/profile.png";
-import elevador from "@/assets/elevado-interativo.png";
-import conversor from "@/assets/conversor-dinheiro.png";
-import cifra from "@/assets/cifra-cesa.png";
-import jokenpo from "@/assets/jokepo.png";
+import profile from '@/assets/photo-profile.jpeg'
+import elevador from '@/assets/elevado-interativo.png'
+import conversor from '@/assets/conversor-dinheiro.png'
+import cifra from '@/assets/cifra-cesa.png'
+import jokenpo from '@/assets/jokepo.png'
 
 interface Project {
   id: number
@@ -18,130 +34,277 @@ interface Project {
   technologies: string[]
 }
 
+interface SkillGroup {
+  title: string
+  description: string
+  icon: typeof Code2
+  color: string
+  skills: string[]
+}
+
 const projects: Project[] = [
   {
     id: 1,
-    title: "Elevador Interativo",
-    description: "Simulação interativa de um elevador com interface moderna e animações suaves.",
+    title: 'Elevador Interativo',
+    description: 'Simulação interativa de um elevador com interface objetiva, estados visuais e animações suaves.',
     image: elevador,
-    github: "https://github.com/Anderson-reis7/projet-elevador",
-    technologies: ["JavaScript", "HTML", "CSS"]
+    github: 'https://github.com/Anderson-reis7/projet-elevador',
+    technologies: ['JavaScript', 'HTML', 'CSS'],
   },
   {
     id: 2,
-    title: "Conversor de Moedas",
-    description: "Aplicação para conversão de moedas em tempo real com interface intuitiva.",
+    title: 'Conversor de Moedas',
+    description: 'Aplicação para conversão de moedas com foco em usabilidade, leitura rápida e integração com API.',
     image: conversor,
-    github: "https://github.com/Anderson-reis7/conversor-de-dinheiro",
-    technologies: ["JavaScript", "API", "CSS"]
+    github: 'https://github.com/Anderson-reis7/conversor-de-dinheiro',
+    technologies: ['JavaScript', 'API', 'CSS'],
   },
   {
     id: 3,
-    title: "Cifra de César",
-    description: "Ferramenta de criptografia usando a técnica clássica da Cifra de César.",
+    title: 'Cifra de César',
+    description: 'Ferramenta de criptografia baseada na técnica clássica da Cifra de César.',
     image: cifra,
-    github: "https://github.com/Anderson-reis7/cifra-de-cesar",
-    technologies: ["JavaScript", "Criptografia", "HTML"]
+    github: 'https://github.com/Anderson-reis7/cifra-de-cesar',
+    technologies: ['JavaScript', 'Criptografia', 'HTML'],
   },
   {
     id: 4,
-    title: "Jokenpô",
-    description: "Jogo clássico de pedra, papel e tesoura com design moderno e interativo.",
+    title: 'Jokenpô',
+    description: 'Jogo de pedra, papel e tesoura com regras simples, feedback visual e interação direta.',
     image: jokenpo,
-    github: "https://github.com/Anderson-reis7/jokenpo",
-    technologies: ["JavaScript", "Game Logic", "CSS"]
-  }
+    github: 'https://github.com/Anderson-reis7/jokenpo',
+    technologies: ['JavaScript', 'Game Logic', 'CSS'],
+  },
 ]
 
+const skillGroups: SkillGroup[] = [
+  {
+    title: 'Frontend',
+    description: 'Interfaces responsivas, acessíveis e performáticas para produtos digitais.',
+    icon: Code2,
+    color: 'var(--skill-cyan)',
+    skills: ['JavaScript', 'TypeScript', 'React', 'Next.js', 'HTML5', 'CSS3'],
+  },
+  {
+    title: 'Backend',
+    description: 'Construção e manutenção de aplicações corporativas com base Java.',
+    icon: Server,
+    color: 'var(--skill-violet)',
+    skills: ['Java 8+', 'Spring Boot', 'Apache Wicket', 'APIs REST'],
+  },
+  {
+    title: 'Dados e Integrações',
+    description: 'Organização de fluxos, consumo de APIs e preparo para integrações de sistemas.',
+    icon: Database,
+    color: 'var(--skill-green)',
+    skills: ['REST', 'JSON', 'Validações', 'Regras de negócio'],
+  },
+  {
+    title: 'Mobile',
+    description: 'Experiências adaptadas para uso mobile e rotinas de produto.',
+    icon: Smartphone,
+    color: 'var(--skill-amber)',
+    skills: ['Capacitor', 'PWA', 'Design responsivo', 'Performance Web'],
+  },
+]
+
+const highlights = [
+  {
+    value: 'Fullstack',
+    label: 'Frontend, backend Java e mobile',
+  },
+  {
+    value: '4+',
+    label: 'Projetos publicados no GitHub',
+  },
+  {
+    value: 'Mobile',
+    label: 'Capacitor e experiências responsivas',
+  },
+]
+
+const deliveryPillars = [
+  'Interfaces limpas e responsivas',
+  'Código organizado e manutenível',
+  'Base para sistemas corporativos',
+]
+
+const navigationItems = [
+  { label: 'Início', target: 'home', index: '00' },
+  { label: 'Sobre', target: 'about', index: '01' },
+  { label: 'Conhecimentos', target: 'skills', index: '02' },
+  { label: 'Projetos', target: 'projects', index: '03' },
+  { label: 'Contato', target: 'contact', index: '04' },
+]
+
+const CONTACT_EMAIL = 'andersonreis.developer@gmail.com'
+
+function useScrollReveal() {
+  useEffect(() => {
+    const targets = document.querySelectorAll<HTMLElement>('.reveal')
+    if (targets.length === 0) return
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      targets.forEach((el) => el.classList.add('is-visible'))
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -64px 0px' },
+    )
+
+    targets.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
+}
+
+function BackgroundDecor() {
+  return (
+    <div className="bg-decor" aria-hidden="true">
+      <span className="bg-grid" />
+      <span className="glow-orb glow-orb-cyan" />
+      <span className="glow-orb glow-orb-violet" />
+    </div>
+  )
+}
+
 function App() {
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window === 'undefined') {
+      return false
+    }
+
+    const storedTheme = window.localStorage.getItem('theme')
+
+    if (storedTheme) {
+      return storedTheme === 'dark'
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+  })
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [copied, setCopied] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: ''
+    message: '',
   })
+  const copyTimeoutRef = useRef<ReturnType<typeof setTimeout>>()
 
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
+    document.documentElement.classList.toggle('dark', darkMode)
+    window.localStorage.setItem('theme', darkMode ? 'dark' : 'light')
   }, [darkMode])
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode)
-  }
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 24)
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  useEffect(() => () => clearTimeout(copyTimeoutRef.current), [])
+
+  useScrollReveal()
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setFormData(prev => ({
+
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    const subject = encodeURIComponent(`Contato de ${formData.name}`)
-    const body = encodeURIComponent(`Nome: ${formData.name}\nEmail: ${formData.email}\n\nMensagem:\n${formData.message}`)
-    window.open(`mailto:andersonreis.developer@gmail.com?subject=${subject}&body=${body}`)
+
+    const subject = encodeURIComponent(`Contato de ${formData.name.trim()}`)
+    const body = encodeURIComponent(
+      `Nome: ${formData.name.trim()}\nEmail: ${formData.email.trim()}\n\nMensagem:\n${formData.message.trim()}`,
+    )
+
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`
     setFormData({ name: '', email: '', message: '' })
   }
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL)
+      setCopied(true)
+      copyTimeoutRef.current = setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // clipboard indisponível: o link mailto abaixo continua funcional
     }
+  }
+
+  const scrollToSection = (sectionId: string) => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     setIsMenuOpen(false)
   }
 
+  const currentYear = new Date().getFullYear()
+
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
-      {/* Header */}
-      <header className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <motion.h1 
-            className="text-2xl font-bold"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+      <header className={`site-header${isScrolled ? ' is-scrolled' : ''}`}>
+        <div className="container mx-auto flex items-center justify-between px-4 py-4">
+          <button
+            type="button"
+            className="brand-button"
+            onClick={() => scrollToSection('home')}
+            aria-label="Ir para o início"
           >
+            <span className="brand-mark" aria-hidden="true">
+              &lt;
+            </span>
             Anderson Reis
-          </motion.h1>
-          
-          <nav className="hidden md:flex space-x-8">
-            <button onClick={() => scrollToSection('home')} className="hover:text-primary transition-colors">
-              Início
-            </button>
-            <button onClick={() => scrollToSection('about')} className="hover:text-primary transition-colors">
-              Sobre
-            </button>
-            <button onClick={() => scrollToSection('projects')} className="hover:text-primary transition-colors">
-              Projetos
-            </button>
-            <button onClick={() => scrollToSection('contact')} className="hover:text-primary transition-colors">
-              Contato
-            </button>
+            <span className="brand-mark" aria-hidden="true">
+              /&gt;
+            </span>
+          </button>
+
+          <nav className="hidden items-center gap-7 md:flex" aria-label="Navegação principal">
+            {navigationItems.map((item) => (
+              <button
+                key={item.target}
+                type="button"
+                onClick={() => scrollToSection(item.target)}
+                className="nav-link"
+              >
+                {item.label}
+              </button>
+            ))}
           </nav>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-2">
             <Button
               variant="ghost"
               size="icon"
-              onClick={toggleDarkMode}
+              onClick={() => setDarkMode((value) => !value)}
               className="rounded-full"
+              aria-label={darkMode ? 'Ativar tema claro' : 'Ativar tema escuro'}
             >
               {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
-            
+
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="rounded-full md:hidden"
+              onClick={() => setIsMenuOpen((value) => !value)}
+              aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
@@ -149,300 +312,258 @@ function App() {
         </div>
 
         {isMenuOpen && (
-          <motion.nav 
-            className="md:hidden bg-background border-t border-border"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-          >
-            <div className="container mx-auto px-4 py-4 space-y-4">
-              <button onClick={() => scrollToSection('home')} className="block w-full text-left hover:text-primary transition-colors">
-                Início
-              </button>
-              <button onClick={() => scrollToSection('about')} className="block w-full text-left hover:text-primary transition-colors">
-                Sobre
-              </button>
-              <button onClick={() => scrollToSection('projects')} className="block w-full text-left hover:text-primary transition-colors">
-                Projetos
-              </button>
-              <button onClick={() => scrollToSection('contact')} className="block w-full text-left hover:text-primary transition-colors">
-                Contato
-              </button>
+          <nav id="mobile-menu" className="mobile-menu md:hidden" aria-label="Navegação mobile">
+            <div className="container mx-auto space-y-1 px-4 py-4">
+              {navigationItems.map((item) => (
+                <button
+                  key={item.target}
+                  type="button"
+                  onClick={() => scrollToSection(item.target)}
+                  className="mobile-nav-link"
+                >
+                  <span className="mobile-nav-index">{item.index}</span>
+                  {item.label}
+                </button>
+              ))}
             </div>
-          </motion.nav>
+          </nav>
         )}
       </header>
 
-      {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center pt-20">
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-6"
-          >
-            <motion.img
-              src= {profile}
-              alt="Anderson Reis"
-              className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-primary shadow-lg"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2, type: "spring", stiffness: 100 }}
-              whileHover={{ scale: 1.05 }}
-            />
-            <motion.h1 
-              className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              Anderson Reis
-            </motion.h1>
-            <motion.p 
-              className="text-xl md:text-2xl text-muted-foreground"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              Desenvolvedor Frontend
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="max-w-2xl mx-auto"
-            >
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Olá, meu nome é Anderson, desenvolvedor Frontend apaixonado por tecnologia e por criar experiências digitais envolventes. 
-                Trabalho com JavaScript, TypeScript, React e Next.js, sempre buscando desenvolver interfaces modernas, responsivas e de alta performance.
-              </p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.7 }}
-              className="flex justify-center space-x-4"
-            >
-              <Button onClick={() => scrollToSection('projects')} size="lg">
-                Ver Projetos
-              </Button>
-              <Button onClick={() => scrollToSection('contact')} variant="outline" size="lg">
-                Entrar em Contato
-              </Button>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
-            className="text-center space-y-6"
-          >
-            <motion.h2 
-              className="text-3xl md:text-4xl font-bold"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              Sobre Mim
-            </motion.h2>
-            <motion.div 
-              className="max-w-3xl mx-auto space-y-6 text-lg text-muted-foreground"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
-            >
+      <main>
+        <section id="home" className="hero-section">
+          <BackgroundDecor />
+          <div className="hero-container container mx-auto grid items-center gap-12 px-4">
+            <div className="hero-copy reveal">
+              <span className="eyebrow">
+                <span className="eyebrow-dot" aria-hidden="true" />
+                Desenvolvedor Fullstack
+              </span>
+              <h1>
+                Construo aplicações web completas, responsivas e preparadas para{' '}
+                <span className="text-gradient">uso profissional</span>.
+              </h1>
               <p>
-                Sou um desenvolvedor frontend dedicado a criar experiências digitais excepcionais. 
-                Com foco em tecnologias modernas como React, TypeScript e Next.js, busco sempre 
-                entregar soluções que combinam performance, usabilidade e design atrativo.
+                Sou Anderson Reis, desenvolvedor fullstack com foco em interfaces modernas, backend Java,
+                integrações e experiências mobile. Meu objetivo é entregar soluções claras, rápidas e bem
+                estruturadas para empresas e produtos digitais.
               </p>
-              <p>
-                Minha paixão pela tecnologia me motiva a estar sempre aprendendo e explorando 
-                novas ferramentas e técnicas para criar interfaces cada vez mais envolventes e eficientes.
-              </p>
-            </motion.div>
-            
-            <motion.div 
-              className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              viewport={{ once: true }}
-            >
-              {['JavaScript', 'TypeScript', 'React', 'Next.js'].map((tech, index) => (
-                <motion.div
-                  key={tech}
-                  initial={{ opacity: 0, y: 30, scale: 0.8 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ 
-                    duration: 0.6, 
-                    delay: 0.8 + index * 0.1,
-                    type: "spring",
-                    stiffness: 100
-                  }}
-                  viewport={{ once: true }}
-                  whileHover={{ 
-                    scale: 1.05, 
-                    y: -5,
-                    transition: { duration: 0.2 }
-                  }}
-                  className="bg-background p-4 rounded-lg border border-border text-center shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <h3 className="font-semibold">{tech}</h3>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* Projects Section */}
-      <section id="projects" className="py-20">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.2 }}
-            className="text-center space-y-6 mb-12"
-          >
-            <motion.h2 
-              className="text-3xl md:text-4xl font-bold"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              Meus Projetos
-            </motion.h2>
-            <motion.p 
-              className="text-lg text-muted-foreground max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
-            >
-              Aqui estão alguns dos projetos que desenvolvi, demonstrando minhas habilidades 
-              em diferentes tecnologias e conceitos de programação.
-            </motion.p>
-          </motion.div>
+              <div className="hero-pillars" aria-label="Pontos fortes">
+                {deliveryPillars.map((pillar) => (
+                  <span key={pillar}>
+                    <Layers3 className="h-4 w-4" aria-hidden="true" />
+                    {pillar}
+                  </span>
+                ))}
+              </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {projects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ 
-                  duration: 0.8, 
-                  delay: index * 0.2,
-                  type: "spring",
-                  stiffness: 100
-                }}
-                viewport={{ once: true, amount: 0.3 }}
-                whileHover={{ 
-                  y: -10, 
-                  scale: 1.02,
-                  transition: { duration: 0.3 }
-                }}
-                className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-              >
-                <motion.div 
-                  className="aspect-video overflow-hidden"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-300"
-                  />
-                </motion.div>
-                <div className="p-6 space-y-4">
-                  <h3 className="text-xl font-semibold">{project.title}</h3>
-                  <p className="text-muted-foreground">{project.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm"
-                      >
-                        {tech}
-                      </span>
-                    ))}
+              <div className="hero-actions">
+                <Button onClick={() => scrollToSection('projects')} size="lg" className="btn-glow">
+                  Ver projetos
+                </Button>
+                <Button onClick={() => scrollToSection('contact')} variant="outline" size="lg">
+                  Entrar em contato
+                </Button>
+              </div>
+
+              <div className="hero-stats" aria-label="Resumo profissional">
+                {highlights.map((item) => (
+                  <div key={item.value}>
+                    <strong>{item.value}</strong>
+                    <span>{item.label}</span>
                   </div>
-                  <div className="flex space-x-4">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => window.open(project.github, '_blank')}
-                      className="flex items-center space-x-2"
-                    >
-                      <Github className="h-4 w-4" />
-                      <span>Código</span>
-                      <ExternalLink className="h-4 w-4" />
+                ))}
+              </div>
+            </div>
+
+            <div className="profile-panel reveal reveal-delay">
+              <div className="profile-frame">
+                <img
+                  src={profile}
+                  alt="Foto profissional de Anderson Reis"
+                  className="profile-photo"
+                  width="420"
+                  height="520"
+                  decoding="async"
+                  fetchPriority="high"
+                />
+              </div>
+
+              <div className="profile-badge" aria-hidden="true">
+                <Code2 className="h-4 w-4" />
+                React &amp; Java
+              </div>
+
+              <div className="profile-summary">
+                <strong>Anderson Reis</strong>
+                <span>Fullstack: React, Java 8+, Spring Boot, Apache Wicket e Capacitor</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="about" className="section-band">
+          <BackgroundDecor />
+          <div className="container mx-auto grid gap-10 px-4 lg:grid-cols-[0.85fr_1.15fr]">
+            <div className="section-heading reveal">
+              <span className="eyebrow eyebrow-numbered">
+                <span className="eyebrow-index">01</span>
+                Sobre mim
+              </span>
+              <h2>Perfil técnico com foco em entrega clara, responsiva e sustentável.</h2>
+            </div>
+
+            <div className="content-stack reveal reveal-delay">
+              <p>
+                Atuo no desenvolvimento de interfaces modernas com JavaScript, TypeScript, React e Next.js,
+                priorizando performance, organização visual e boa experiência para quem utiliza o produto.
+              </p>
+              <p>
+                Também trabalho minha base fullstack com Java 8+, Spring Boot e Apache Wicket, além de
+                Capacitor para levar experiências web a contextos mobile.
+              </p>
+              <div className="value-grid">
+                <div>
+                  <strong>Responsividade</strong>
+                  <span>Layouts adaptados para celular, tablet e desktop.</span>
+                </div>
+                <div>
+                  <strong>Backend Java</strong>
+                  <span>Estrutura para APIs, regras de negócio e sistemas corporativos.</span>
+                </div>
+                <div>
+                  <strong>Performance</strong>
+                  <span>Imagens otimizadas, animações leves e código objetivo.</span>
+                </div>
+                <div>
+                  <strong>Mobile</strong>
+                  <span>Interfaces preparadas para PWA e empacotamento com Capacitor.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="skills" className="section">
+          <div className="container mx-auto px-4">
+            <div className="section-heading centered reveal">
+              <span className="eyebrow eyebrow-numbered">
+                <span className="eyebrow-index">02</span>
+                Conhecimentos
+              </span>
+              <h2>Tecnologias atualizadas para projetos web, backend Java e mobile.</h2>
+              <p>
+                Stack organizada para atender demandas de interfaces, sistemas corporativos e produtos que
+                precisam funcionar bem em múltiplos dispositivos.
+              </p>
+            </div>
+
+            <div className="skill-grid">
+              {skillGroups.map((group, index) => {
+                const Icon = group.icon
+
+                return (
+                  <article
+                    key={group.title}
+                    className="skill-card reveal"
+                    style={{ '--card-accent': group.color, transitionDelay: `${index * 70}ms` } as CSSProperties}
+                  >
+                    <div className="skill-card-icon">
+                      <Icon className="h-5 w-5" aria-hidden="true" />
+                    </div>
+                    <h3>{group.title}</h3>
+                    <p>{group.description}</p>
+                    <div className="chip-list">
+                      {group.skills.map((skill) => (
+                        <span key={skill} className="chip">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section id="projects" className="section-band">
+          <BackgroundDecor />
+          <div className="container mx-auto px-4">
+            <div className="section-heading centered reveal">
+              <span className="eyebrow eyebrow-numbered">
+                <span className="eyebrow-index">03</span>
+                Projetos
+              </span>
+              <h2>Projetos selecionados</h2>
+              <p>
+                Exemplos práticos de construção de interfaces, consumo de API, lógica de aplicação e cuidado
+                com apresentação visual.
+              </p>
+            </div>
+
+            <div className="projects-grid">
+              {projects.map((project, index) => (
+                <article
+                  key={project.id}
+                  className="project-card reveal"
+                  style={{ transitionDelay: `${index * 70}ms` }}
+                >
+                  <div className="project-image">
+                    <span className="project-index" aria-hidden="true">
+                      0{index + 1}
+                    </span>
+                    <img
+                      src={project.image}
+                      alt={`Prévia do projeto ${project.title}`}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <div className="project-content">
+                    <h3>{project.title}</h3>
+                    <p>{project.description}</p>
+                    <div className="chip-list">
+                      {project.technologies.map((tech) => (
+                        <span key={tech} className="chip">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                    <Button asChild variant="outline" size="sm" className="project-link">
+                      <a href={project.github} target="_blank" rel="noopener noreferrer">
+                        <Github className="h-4 w-4" />
+                        Código
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
                     </Button>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </article>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.2 }}
-            className="text-center space-y-6 mb-12"
-          >
-            <motion.h2 
-              className="text-3xl md:text-4xl font-bold"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              Entre em Contato
-            </motion.h2>
-            <motion.p 
-              className="text-lg text-muted-foreground max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
-            >
-              Estou sempre aberto a novas oportunidades e colaborações. 
-              Vamos conversar sobre como posso ajudar em seu próximo projeto!
-            </motion.p>
-          </motion.div>
+        <section id="contact" className="section">
+          <BackgroundDecor />
+          <div className="container mx-auto px-4">
+            <div className="section-heading centered reveal">
+              <span className="eyebrow eyebrow-numbered">
+                <span className="eyebrow-index">04</span>
+                Contato
+              </span>
+              <h2>Vamos conversar sobre oportunidades e projetos.</h2>
+              <p>
+                Estou aberto a oportunidades profissionais e colaborações em produtos web, interfaces
+                responsivas, aplicações Java e soluções mobile.
+              </p>
+            </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="contact-grid">
+              <form onSubmit={handleSubmit} className="contact-form reveal" aria-label="Formulário de contato">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2">
-                    Nome
-                  </label>
+                  <label htmlFor="name">Nome</label>
                   <input
                     type="text"
                     id="name"
@@ -450,14 +571,12 @@ function App() {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    autoComplete="name"
                     placeholder="Seu nome"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2">
-                    Email
-                  </label>
+                  <label htmlFor="email">Email</label>
                   <input
                     type="email"
                     id="email"
@@ -465,14 +584,12 @@ function App() {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    autoComplete="email"
                     placeholder="seu@email.com"
                   />
                 </div>
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium mb-2">
-                    Mensagem
-                  </label>
+                  <label htmlFor="message">Mensagem</label>
                   <textarea
                     id="message"
                     name="message"
@@ -480,97 +597,61 @@ function App() {
                     onChange={handleInputChange}
                     required
                     rows={5}
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                     placeholder="Sua mensagem..."
                   />
                 </div>
-                <Button type="submit" size="lg" className="w-full">
-                  <Mail className="h-5 w-5 mr-2" />
-                  Enviar Mensagem
+                <Button type="submit" size="lg" className="w-full btn-glow">
+                  <Mail className="h-5 w-5" />
+                  Enviar mensagem
                 </Button>
               </form>
-            </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              viewport={{ once: true }}
-              className="space-y-8"
-            >
-              <div>
-                <h3 className="text-xl font-semibold mb-4">Conecte-se Comigo</h3>
-                <div className="space-y-4">
-                  <motion.a
-                    href="https://www.linkedin.com/in/anderson-reis-santana/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-3 text-muted-foreground hover:text-primary transition-colors group"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 1 }}
-                    viewport={{ once: true }}
-                    whileHover={{ x: 5, transition: { duration: 0.2 } }}
-                  >
-                    <Linkedin className="h-5 w-5 group-hover:scale-110 transition-transform" />
-                    <span>LinkedIn</span>
-                    <ExternalLink className="h-4 w-4 group-hover:scale-110 transition-transform" />
-                  </motion.a>
-                  <motion.a
-                    href="https://github.com/Anderson-reis7"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-3 text-muted-foreground hover:text-primary transition-colors group"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 1.1 }}
-                    viewport={{ once: true }}
-                    whileHover={{ x: 5, transition: { duration: 0.2 } }}
-                  >
-                    <Github className="h-5 w-5 group-hover:scale-110 transition-transform" />
-                    <span>GitHub</span>
-                    <ExternalLink className="h-4 w-4 group-hover:scale-110 transition-transform" />
-                  </motion.a>
-                  <motion.a
-                    href="https://www.instagram.com/anderson_reis7/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-3 text-muted-foreground hover:text-primary transition-colors group"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 1.2 }}
-                    viewport={{ once: true }}
-                    whileHover={{ x: 5, transition: { duration: 0.2 } }}
-                  >
-                    <Instagram className="h-5 w-5 group-hover:scale-110 transition-transform" />
-                    <span>Instagram</span>
-                    <ExternalLink className="h-4 w-4 group-hover:scale-110 transition-transform" />
-                  </motion.a>
-                  <motion.a
-                    href="mailto:andersonreis.developer@gmail.com"
-                    className="flex items-center space-x-3 text-muted-foreground hover:text-primary transition-colors group"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 1.3 }}
-                    viewport={{ once: true }}
-                    whileHover={{ x: 5, transition: { duration: 0.2 } }}
-                  >
-                    <Mail className="h-5 w-5 group-hover:scale-110 transition-transform" />
-                    <span>andersonreis.developer@gmail.com</span>
-                  </motion.a>
+              <aside className="contact-card reveal reveal-delay">
+                <h3>Conecte-se comigo</h3>
+                <p>
+                  Para recrutadores e empresas, o LinkedIn e o email são os melhores canais para contato
+                  profissional.
+                </p>
+                <div className="contact-links">
+                  <a href="https://www.linkedin.com/in/anderson-reis-santana/" target="_blank" rel="noopener noreferrer">
+                    <Linkedin className="h-5 w-5" />
+                    LinkedIn
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                  <a href="https://github.com/Anderson-reis7" target="_blank" rel="noopener noreferrer">
+                    <Github className="h-5 w-5" />
+                    GitHub
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                  <a href="https://www.instagram.com/anderson_reis7/" target="_blank" rel="noopener noreferrer">
+                    <Instagram className="h-5 w-5" />
+                    Instagram
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                  <div className="contact-email-row">
+                    <a href={`mailto:${CONTACT_EMAIL}`}>
+                      <Mail className="h-5 w-5" />
+                      {CONTACT_EMAIL}
+                    </a>
+                    <button
+                      type="button"
+                      className="copy-email-button"
+                      onClick={handleCopyEmail}
+                      aria-label="Copiar endereço de email"
+                    >
+                      {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </aside>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
-      {/* Footer */}
-      <footer className="py-8 border-t border-border">
+      <footer className="site-footer">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-muted-foreground">
-            © 2024 Anderson Reis. Todos os direitos reservados.
-          </p>
+          <p>© {currentYear} Anderson Reis. Todos os direitos reservados.</p>
         </div>
       </footer>
     </div>
@@ -578,4 +659,3 @@ function App() {
 }
 
 export default App
-

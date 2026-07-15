@@ -15,7 +15,7 @@ export const experience: ExperienceItem[] = [
     ],
   },
   {
-    role: 'Desenvolvedor Full Stack — Projeto Desktop',
+    role: 'Desenvolvedor Full Stack — Projeto Saas Multi-Tenant',
     context: 'Prestação de Serviços (MEI)',
     period: '12/2025 – Atual',
     bullets: [

@@ -1,9 +1,7 @@
 @import "tailwindcss" source(none);
 @import "tw-animate-css";
 
-@source "./App.tsx";
-@source "./main.tsx";
-@source "./components/ui/button.jsx";
+@source "./";
 
 @custom-variant dark (&:is(.dark *));
 

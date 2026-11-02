@@ -34,10 +34,12 @@ Um portfólio moderno e minimalista desenvolvido com React, TypeScript e Vite, a
 - Cards com habilidades
 
 ### 3. Projetos
-- **Elevador Interativo**: Simulação de elevador com interface moderna
+- **HVAC Field Reports**: SaaS de relatórios de serviço para técnicos de climatização (React, Supabase, Paddle Billing)
+- **Clínica Domus**: Sistema de gestão para clínicas multidisciplinares (React, Firebase)
+- **MeuGestar**: Plataforma web e mobile de acompanhamento da gestação (React, Capacitor, Firebase)
 - **Conversor de Moedas**: Aplicação para conversão de moedas em tempo real
-- **Cifra de César**: Ferramenta de criptografia clássica
-- **Jokenpô**: Jogo de pedra, papel e tesoura
+
+Os dados dos projetos ficam em `src/data/projects.ts` e as imagens em `src/assets/`.
 
 ### 4. Contato
 - Formulário de contato funcional
@@ -93,14 +95,21 @@ pnpm run preview
 ```
 portfolio-anderson/
 ├── public/
-│   ├── profile.png
-│   ├── elevado-interativo.png
-│   ├── conversor-dinheiro.png
-│   ├── cifra-cesa.png
-│   └── jokepo.png
+│   ├── favicon.ico
+│   └── profile-hd.png
 ├── src/
+│   ├── assets/
+│   │   ├── hvac-field-reports.webp
+│   │   ├── clinica-domus.webp
+│   │   ├── meu-gestar.webp
+│   │   └── conversor-dinheiro.png
 │   ├── components/
+│   │   ├── layout/
+│   │   ├── sections/
 │   │   └── ui/
+│   ├── data/
+│   ├── hooks/
+│   ├── types/
 │   ├── App.tsx
 │   ├── App.css
 │   ├── main.tsx

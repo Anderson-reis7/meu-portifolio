@@ -18,8 +18,8 @@ export const highlights: HighlightItem[] = [
     label: 'Frontend, backend Java, mobile e desktop',
   },
   {
-    value: '4+',
-    label: 'Projetos publicados no GitHub',
+    value: '3',
+    label: 'Produtos full-stack: SaaS, gestão clínica e app mobile',
   },
   {
     value: 'Mobile',

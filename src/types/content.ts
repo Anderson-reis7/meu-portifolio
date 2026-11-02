@@ -3,10 +3,14 @@ import type { LucideIcon } from 'lucide-react'
 export interface Project {
   id: number
   title: string
+  subtitle?: string
   description: string
   image: string
-  github: string
+  github?: string
   technologies: string[]
+  highlights?: string[]
+  role?: string
+  status?: string
 }
 
 export interface SkillGroup {

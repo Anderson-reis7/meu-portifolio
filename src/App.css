@@ -698,12 +698,90 @@ main .container,
 .project-content {
   display: grid;
   gap: 1rem;
-  grid-template-rows: auto auto auto 1fr;
+  align-content: start;
   padding: 1.45rem;
 }
 
+.project-title {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.project-subtitle {
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.project-details {
+  border-top: 1px solid var(--border);
+  padding-top: 0.9rem;
+}
+
+.project-details summary {
+  cursor: pointer;
+  width: fit-content;
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.project-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.project-details summary::before {
+  content: "+";
+  display: inline-grid;
+  place-items: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--primary) 45%, transparent);
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.project-details[open] summary::before {
+  content: "\2212";
+}
+
+.project-details-body {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+  color: var(--muted-foreground);
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.project-details-body h4 {
+  margin-top: 0.35rem;
+  color: var(--foreground);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.project-details-body ul {
+  display: grid;
+  gap: 0.45rem;
+  padding-left: 1.1rem;
+  list-style: disc;
+}
+
+.project-details-body p {
+  color: var(--muted-foreground);
+  line-height: 1.65;
+}
+
 .project-link {
-  align-self: end;
+  margin-top: auto;
   width: fit-content;
 }
 

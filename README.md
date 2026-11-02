@@ -7,19 +7,18 @@ Um portfólio moderno e minimalista desenvolvido com React, TypeScript e Vite, a
 - **Design Moderno e Minimalista**: Interface limpa e elegante que destaca o conteúdo
 - **Modo Escuro/Claro**: Alternância entre temas claro e escuro
 - **Totalmente Responsivo**: Adaptado para desktop, tablet e mobile
-- **Animações Suaves**: Transições e animações usando Framer Motion
+- **Animações Suaves**: Revelação por scroll com IntersectionObserver e respeito a `prefers-reduced-motion`
 - **Formulário de Contato**: Integração com email para facilitar o contato
 - **Performance Otimizada**: Carregamento rápido e experiência fluida
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **React 19** - Biblioteca para construção da interface
+- **React 18** - Biblioteca para construção da interface
 - **TypeScript** - Tipagem estática para maior robustez
-- **Vite** - Build tool moderna e rápida
-- **Tailwind CSS** - Framework CSS utilitário
-- **Framer Motion** - Biblioteca de animações
+- **Vite 6** - Build tool moderna e rápida
+- **Tailwind CSS 4** - Framework CSS utilitário (configurado via CSS, sem `tailwind.config.js`)
 - **Lucide React** - Ícones modernos
-- **shadcn/ui** - Componentes de interface
+- **shadcn/ui (Button)** - Único componente de UI mantido; os demais foram removidos por não serem usados
 
 ## 📱 Seções do Portfólio
 
@@ -61,8 +60,8 @@ O formulário de contato utiliza o protocolo `mailto:` para abrir o cliente de e
 ## 🚀 Como Executar
 
 ### Pré-requisitos
-- Node.js (versão 18 ou superior)
-- pnpm, npm ou yarn
+- Node.js 20 ou superior
+- npm (o projeto usa `package-lock.json`; é o mesmo gerenciador do CI)
 
 ### Instalação
 ```bash
@@ -70,53 +69,54 @@ O formulário de contato utiliza o protocolo `mailto:` para abrir o cliente de e
 git clone [url-do-repositorio]
 
 # Entre no diretório
-cd portfolio-anderson
+cd meu-portifolio
 
 # Instale as dependências
-pnpm install
+npm install
 
 # Execute o servidor de desenvolvimento
-pnpm run dev
+npm run dev
 
 # Acesse http://localhost:5173
 ```
 
 ### Build para Produção
 ```bash
+# Checar tipos e lint
+npm run check
+
 # Gerar build otimizado
-pnpm run build
+npm run build
 
 # Visualizar build localmente
-pnpm run preview
+npm run preview
 ```
+
+O deploy é automático via GitHub Actions a cada push na `main` (veja [DEPLOY.md](DEPLOY.md)).
 
 ## 📁 Estrutura do Projeto
 
 ```
-portfolio-anderson/
+meu-portifolio/
+├── .github/workflows/deploy.yml   # build e deploy no GitHub Pages
 ├── public/
-│   ├── favicon.ico
-│   └── profile-hd.png
+│   └── favicon.ico
 ├── src/
-│   ├── assets/
-│   │   ├── hvac-field-reports.webp
-│   │   ├── clinica-domus.webp
-│   │   ├── meu-gestar.webp
-│   │   └── conversor-dinheiro.png
+│   ├── assets/                    # imagens dos projetos (WebP) e foto de perfil
 │   ├── components/
-│   │   ├── layout/
-│   │   ├── sections/
-│   │   └── ui/
-│   ├── data/
-│   ├── hooks/
-│   ├── types/
+│   │   ├── layout/                # Header, Footer, BackgroundDecor
+│   │   ├── sections/              # Hero, Sobre, Conhecimentos, Experiência, Projetos, Contato
+│   │   └── ui/                    # Button (shadcn)
+│   ├── data/                      # conteúdo: projetos, experiência, skills, site
+│   ├── hooks/                     # useDarkMode, useScrolled, useScrollReveal
+│   ├── types/                     # tipos do conteúdo
 │   ├── App.tsx
 │   ├── App.css
 │   ├── main.tsx
 │   └── index.css
+├── eslint.config.js
 ├── package.json
 ├── tsconfig.json
-├── tailwind.config.js
 └── vite.config.js
 ```
 

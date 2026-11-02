@@ -1,7 +1,7 @@
 import clinicaDomus from '@/assets/clinica-domus.webp'
 import meuGestar from '@/assets/meu-gestar.webp'
 import hvacFieldReports from '@/assets/hvac-field-reports.webp'
-import conversor from '@/assets/conversor-dinheiro.png'
+import conversor from '@/assets/conversor-dinheiro.webp'
 import type { Project } from '@/types/content'
 
 export const projects: Project[] = [

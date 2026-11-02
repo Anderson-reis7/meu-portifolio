@@ -20,8 +20,9 @@ export function AboutSection() {
           </p>
           <p>
             Também trabalho minha base fullstack com Java 8+, Spring Boot e Apache Wicket, além de
-            Firebase (Firestore, Cloud Functions e Storage) para SaaS multi-tenant e Capacitor para
-            levar experiências web a contextos mobile.
+            Firebase (Firestore, Cloud Functions e Storage) e Supabase (PostgreSQL com Row Level
+            Security, Auth e Edge Functions) para SaaS multi-tenant, e Capacitor para levar
+            experiências web a contextos mobile.
           </p>
           <div className="value-grid">
             <div>
@@ -29,8 +30,8 @@ export function AboutSection() {
               <span>Layouts adaptados para celular, tablet e desktop.</span>
             </div>
             <div>
-              <strong>Backend Java</strong>
-              <span>Estrutura para APIs, regras de negócio e sistemas corporativos.</span>
+              <strong>Backend e dados</strong>
+              <span>Java, Firebase e Supabase, com segurança no banco e regras de negócio.</span>
             </div>
             <div>
               <strong>Performance</strong>

@@ -11,8 +11,8 @@ export function ExperienceSection() {
           </span>
           <h2>Experiência profissional recente.</h2>
           <p>
-            Projetos de prestação de serviços (MEI) com entrega ponta a ponta, do frontend ao
-            empacotamento final.
+            Produtos entregues ponta a ponta como prestador de serviços (MEI): arquitetura, frontend,
+            backend, testes automatizados e publicação.
           </p>
         </div>
 
